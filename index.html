@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  
+  <title>Title</title>
+  <link href="/static/style.css" rel="stylesheet"/>
+  <meta name="theme-color" content="black"/>
+  
+</head>
+<body>
+  <h1>Sup Alk, Shino here</h1>
+  
+  <input class="api-input" name="" value ="" placeholder="API"/>
+
+  
+  <div class="image-container">
+    <div>
+      Preview
+      <div></div>
+    </div>
+    <input class="image-url" value="" />
+  </div>
+  
+  <form>
+    <div class="main">
+      <div class="prompt">
+        <h6>Prompt</h6>
+        <input id="prompt" value =""/>
+      </div>
+      <div class="negative-prompt">
+        <h6>Prompt</h6>
+        <input id="negative-prompt" value =""/>
+      </div>
+
+      <div class="models">
+        <h6>Models</h6>
+        
+        <select id="models">
+          <option value="AbyssOrangeMix3 A3">AbyssOrangeMix3 A3</option>
+          <option value="Anything V3">Anything V3</option>
+          <option value="Anything V4.5">Anything V4.5</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings">
+      <h4>Settings</h4>
+      <div class="sampler">
+        <h6>Sampler</h6>
+        <select id="sampler">
+          <option value="Euler">Euler</option>
+          <option value="Euler a">Euler a</option>
+          <option value="Heun">Heun</option>
+          <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+          <option value="DDIM">DDIM</option>
+        </select>
+      </div>
+      <div class="upscale">
+        <h6>Upscale</h6>
+        <h6>ON</h6>
+      </div>
+    </div>
+    
+    <h4 class="advanced-btn">Advanced</h4>
+    <div class="advanced">
+      <div class="step">
+        <h6>Steps</h6>
+        <input
+        type="range"
+        min="0" max="50" step="1"
+        value="30" />
+      </div>
+      <div class="cfg">
+        <h6>CFG</h6>
+        <input
+        type="range"
+        min="0" max="20" step="1"
+        value="7" />
+      </div>
+      <div class="denoising">
+        <h6>Steps</h6>
+        <input
+        type="range"
+        min="0" max="1" step=".1"
+        value=".7" />
+      </div>
+      <div class="seed">
+        <h6>Seed</h6>
+      <input id="seed" value="" />
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+    <button>Generate</button>
+  </form>
+  
+
+  
+  <script src="/static/script.js"></script>
+  
+</body>
+</html>
