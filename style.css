@@ -14,12 +14,11 @@
 
 body {
   background: url("https://pbs.twimg.com/media/F1WaJ44agAEz7po?format=jpg&name=large");
-  background: black;
   background-size: 110%;
   background-position: center right;
-  /* background-repeat: no-repeat;
+  background-repeat: no-repeat;
   background-attachment: fixed;
-  backdrop-filter: blur(10px) brightness(20%); */
+  backdrop-filter: blur(10px) brightness(20%);
   padding: 1rem;
   min-height: 150vh;
   display: flex;
@@ -61,8 +60,8 @@ h1 {
   text-align: center;
   width: 20%;
   text-decoration: none;
-  background: white;
-  color: black;
+  background: hsl(0,0%,0%);
+  color: hsl(50,100%,50%);
   border-radius: .2rem;
   font-weight: 500;
   font-size: .7rem;
@@ -83,6 +82,8 @@ h1 {
   width: 100%;
   height: auto;
   background: hsl(0,0%,10%);
+  color: white;
+  font-weight: 600;
   display: flex;
   flex-direction: column;
   border-radius: .5rem;
@@ -93,7 +94,7 @@ h1 {
   position: relative;
   width: 100%;
   aspect-ratio: 4/3;
-  background: grey;
+  background: hsl(0,0%,20%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,17 +295,23 @@ form > button {
 }
 
 .result > .result-img {
+  position: relative;
   width: 100%;
   aspect-ratio: 1/1;
   background: none;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  border-radius: .3rem;
+  overflow: hidden;
   justify-content: center;
   align-items: center;
+  transition: backdrop-filter 500ms ease;
 }
 
 .result > .result-img > a {
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -329,5 +336,21 @@ form > button {
 }
 
 
-.result > .result-img:hover {
+.result > .result-img:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background: none;
+  z-index: 0;
+  transition:
+    background 500ms ease,
+    backdrop-filter 500ms ease;
+}
+
+.result > .result-img:hover::after {
+  background: rgba(0,0,0,.8);
+  backdrop-filter: blur(15px);
 }
