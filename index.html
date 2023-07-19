@@ -4,9 +4,11 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   
-  <title>Title</title>
+  <title>MikaMikaMika</title>
   <link href="style.css" rel="stylesheet"/>
   <meta name="theme-color" content="black"/>
+  <link rel="icon" href="https://pbs.twimg.com/media/Fyp7jndaEAEwLMF?format=jpg&name=large"/>
+  
   
 </head>
 <body>
@@ -14,16 +16,16 @@
 
   <div class="api">
     <h3>Enter your Prodia Key</h3>
-    <a href="https://app.prodia.com/api">Get it here</a>
+    <a target="_blank" href="https://app.prodia.com/api">Get it here</a>
     <input class="api-input" name="" value ="" placeholder="API KEY" required/>
   </div>
   
   <div class="image-container">
     <div>
-      Preview
+      Image Preview
       <div></div>
     </div>
-    <input class="image-url" value="https://pbs.twimg.com/media/F1IvMeUaQAAloa0?format=jpg&name=large" />
+    <input class="image-url" value="" placeholder="Enter your image url"/>
     <h6>Image Status</h6>
   </div>
   
@@ -33,11 +35,11 @@
       
       <div class="prompt">
         <h5>Prompt</h5>
-        <input id="prompt" value =""/>
+        <input id="prompt" value ="((masterpiece, ultra detailed, best quality))"/>
       </div>
       <div class="negative-prompt">
         <h5>Negative Prompt</h5>
-        <input id="negative-prompt" value ="bad"/>
+        <input id="negative-prompt" value ="bad anatomy, bad hands, realistic lips, realism, photorealistic"/>
       </div>
       <div class="models">
         <h5>Models</h5>
@@ -111,8 +113,8 @@
       <button>Retrieve Image</button>
     </div>
     <div class="result-img">
-      <a href="">Download</a>
-      <a href="">Copy Job ID</a>
+      <a target="_blank" href="#">Download</a>
+      <a href="#">Copy Job ID</a>
     </div>
   </div>
   
