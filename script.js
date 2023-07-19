@@ -1,5 +1,5 @@
 let imageStatus = false;
-let jobID = "28b44066-74b6-4afa-85b2-f56257111794";
+let jobID = null;
 
 
 const imgInput = document.querySelector('.image-container > input');
