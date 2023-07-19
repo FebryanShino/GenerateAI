@@ -132,7 +132,7 @@ fileBruh.addEventListener('submit', (event) => {
       
       jobID = data.job;
       jobIDText.textContent = data.job;
-      dateText.textContent = `${day}, ${date}/${month}/${year}`;
+      dateText.textContent = `${day}, ${date}/${month}/${year+1900}`;
     });
   
   
