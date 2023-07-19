@@ -1,5 +1,5 @@
 let imageStatus = false;
-let jobID = null;
+let jobID = "28b44066-74b6-4afa-85b2-f56257111794";
 
 
 const imgInput = document.querySelector('.image-container > input');
@@ -158,12 +158,11 @@ getImage.addEventListener('click', () => {
     alert('Please Generate an image first');
     return;
   }
-  getImage.textContent = 'Loading';
-
   const temp = new Image();
-  const url = `https://images.prodia.xyz/${jobID}.png`
+  let url = `https://images.prodia.xyz/${jobID}.png`
   temp.src = url;
-      
+  getImage.textContent = 'Loading';
+  
   resultImg.style.backgroundImage = `url(${url})`;
   resultImg.style.opacity = 0;
   downloadBtn.href = url;
