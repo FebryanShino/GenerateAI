@@ -132,7 +132,7 @@ fileBruh.addEventListener('submit', (event) => {
       
       jobID = data.job;
       jobIDText.textContent = data.job;
-      dateText.textContent = `${day}, ${date}/${month}/${year+1900}`;
+      dateText.textContent = `${day}, ${date}/${month}/${year + 1900}`;
     });
   
   
@@ -155,40 +155,21 @@ getImage.addEventListener('click', () => {
   const downloadBtn = resultImg.children[0];
   const API_KEY = document.querySelector('.api > input').value;
 
-  if(API_KEY === '') {
-    window.scroll({
-      top: '0'
-    });
-    alert('Please enter the API KEY');
-    returm
-  }
-
   if(jobID === null) {
     alert('Please Generate an image first');
     return;
   }
   getImage.textContent = 'Loading';
-  
-  fetch('https://portfolio.febryanshino.repl.co/api/prodia/get', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      API_KEY: API_KEY,
-      job: jobID
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      const temp = new Image();
-      temp.src = data.url;
-      
-      resultImg.style.backgroundImage = `url(${data.url})`;
-      downloadBtn.href = data.url;
 
-      temp.addEventListener('load', () => {
-        getImage.textContent = 'Receive Image';
-      });
-    });
+  const temp = new Image();
+  const url = `https://images.prodia.xyz/${jobID}.png`
+  temp.src = url;
+      
+  resultImg.style.backgroundImage = `url(${url})`;
+  resultImg.style.opacity = 0;
+  downloadBtn.href = url;
+  temp.addEventListener('load', () => {
+    resultImg.style.opacity = 1;
+    getImage.textContent = 'Receive Image';
+  });
 });
