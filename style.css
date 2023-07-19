@@ -298,7 +298,6 @@ form > button {
   position: relative;
   width: 100%;
   aspect-ratio: 1/1;
-  background: none;
   background-size: cover;
   display: flex;
   flex-direction: column;
