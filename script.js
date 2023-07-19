@@ -153,7 +153,6 @@ copyJobID.addEventListener('click', (event) => {
 getImage.addEventListener('click', () => {
   const resultImg = document.querySelector('.result-img');
   const downloadBtn = resultImg.children[0];
-  const API_KEY = document.querySelector('.api > input').value;
 
   if(jobID === null) {
     alert('Please Generate an image first');
