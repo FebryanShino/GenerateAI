@@ -97,37 +97,33 @@ fileBruh.addEventListener('submit', (event) => {
     window.scroll({
       top: '0'
     });
-    alert('baka');
+    alert('Please enter the API KEY');
+    return
   }
   
   if(!imageStatus) {
-    alert('BRUH');
+    alert('Please enter the image url correctly');
     return;
   }
-
-
-  const options = {
+  fetch('https://portfolio.febryanshino.repl.co/api/prodia/generate', {
     method: 'POST',
     headers: {
-      accept: 'application/json',
-      'content-type': 'application/json',
-      'X-Prodia-Key': API_KEY
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      API_KEY: API_KEY,
       upscale: upscale,
       seed: parseInt(seed),
-      imageUrl: imageUrl,
+      image_url: imageUrl,
       model: models[model],
       prompt: prompt,
-      denoising_strength: parseFloat(denoising),
+      denoising: parseFloat(denoising),
       negative_prompt: negativePrompt,
       steps: parseInt(step),
-      cfg_scale: parseInt(cfg),
+      cfg: parseInt(cfg),
       sampler: sampler
     })
-  };
-  
-  fetch('https://api.prodia.com/v1/transform', options)
+  })
     .then(response => response.json())
     .then(data => {
       const info = document.querySelector('.result > .info').children;
@@ -137,6 +133,62 @@ fileBruh.addEventListener('submit', (event) => {
       jobID = data.job;
       jobIDText.textContent = data.job;
       dateText.textContent = `${day}, ${date}/${month}/${year}`;
+    });
+  
+  
+});
+
+
+
+const getImage = document.querySelector('.result > .info > button');
+const copyJobID = document.querySelector('.result-img').children[1];
+
+copyJobID.addEventListener('click', (event) => {
+  event.preventDefault();
+  navigator.clipboard.writeText(jobID);
+});
+
+
+
+getImage.addEventListener('click', () => {
+  const resultImg = document.querySelector('.result-img');
+  const downloadBtn = resultImg.children[0];
+  const API_KEY = document.querySelector('.api > input').value;
+
+  if(API_KEY === '') {
+    window.scroll({
+      top: '0'
+    });
+    alert('Please enter the API KEY');
+    returm
+  }
+
+  if(jobID === null) {
+    alert('Please Generate an image first');
+    return;
+  }
+  getImage.textContent = 'Loading';
+  
+  fetch('https://portfolio.febryanshino.repl.co/api/prodia/get', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      API_KEY: API_KEY,
+      job: jobID
     })
-    .catch(err => console.error(err));
+  })
+    .then(response => response.json())
+    .then(data => {
+      const temp = new Image();
+      temp.src = data.url;
+      
+      resultImg.style.backgroundImage = `url(${data.url})`;
+      downloadBtn.href = data.url;
+
+      temp.addEventListener('load', () => {
+        getImage.textContent = 'Receive Image';
+      });
+    });
 });
