@@ -1,5 +1,5 @@
 let imageStatus = false;
-let jobID = null;
+
 
 
 const imgInput = document.querySelector('.image-container > input');
@@ -129,7 +129,8 @@ fileBruh.addEventListener('submit', (event) => {
       const info = document.querySelector('.result > .info').children;
       const jobIDText = info[0].lastElementChild;
       const dateText = info[1].lastElementChild;
-      
+      document.querySelector('.info')
+        .setAttribute('data-job', data.job);
       jobID = data.job;
       jobIDText.textContent = data.job;
       dateText.textContent = `${day}, ${date}/${month}/${year + 1900}`;
@@ -153,8 +154,9 @@ copyJobID.addEventListener('click', (event) => {
 getImage.addEventListener('click', () => {
   const resultImg = document.querySelector('.result-img');
   const downloadBtn = resultImg.children[0];
+  const jobID = document.querySelector('.info').getAttribute('data-job');
 
-  if(jobID === null) {
+  if(jobID === '') {
     alert('Please Generate an image first');
     return;
   }
