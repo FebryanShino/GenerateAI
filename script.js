@@ -163,7 +163,7 @@ getImage.addEventListener('click', () => {
   temp.src = url;
   getImage.textContent = 'Loading';
   
-  resultImg.style.background = `url(${url})`;
+  resultImg.style.backgroundImage = `url(${url})`;
   resultImg.style.opacity = 0;
   downloadBtn.href = url;
   temp.addEventListener('load', () => {
