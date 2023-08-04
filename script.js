@@ -1,5 +1,45 @@
-let imageStatus = false;
+const changeMode = (textMode) => {
+  const imageContainer = document.querySelector('.image-container');
+  const controlnet = document.querySelector('.controlnet');
+  if (textMode) {
+    imageContainer.classList.add('hidden');
+    controlnet.classList.add('hidden');
+  } else {
+    imageContainer.classList.remove('hidden');
+    controlnet.classList.remove('hidden');
+  }
+}
 
+
+const typeToggleParent = document.querySelector('.type-toggle');
+
+const typeToggles = typeToggleParent.children;
+
+for (let i = 0; i < typeToggles.length; i++) {
+  const button = typeToggles[i];
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    const textMode = button.getAttribute('data-img') === 'false';
+    typeToggleParent.setAttribute('data-status', textMode);
+
+    changeMode(textMode);
+
+    button.style.background = 'var(--btn-color)';
+    button.style.color = 'black';
+
+
+    for (let j = 0; j < typeToggles.length; j++) {
+      if (typeToggles[j] !== button) {
+        typeToggles[j].style.background = 'none';
+        typeToggles[j].style.color = 'orange';
+      }
+    }
+  });
+}
+
+
+
+let imageStatus = false;
 
 
 const imgInput = document.querySelector('.image-container > input');
@@ -31,7 +71,7 @@ advancedBtn.addEventListener('click', () => {
   const advancedContent = document.querySelector('.advanced');
   const status = advancedBtn.getAttribute('data-status') === "false";
 
-  if(status) {
+  if (status) {
     advancedContent.style.height = 'auto';
     advancedBtn.lastElementChild.textContent = 'Hide';
     advancedBtn.setAttribute('data-status', status);
@@ -52,11 +92,39 @@ const updateSlider = (element, value) => {
 const advancedSilders = document.querySelector('.advanced').querySelectorAll('div');
 
 
-for(let i = 0; i < advancedSilders.length; i++) {
+for (let i = 0; i < advancedSilders.length; i++) {
   const slider = advancedSilders[i].children;
 
   slider[1].addEventListener('input', () => {
     updateSlider(slider[0], slider[1].value);
+  });
+}
+
+
+
+const retrieveImage = () => {
+  const resultImg = document.querySelector('.result-img');
+  const downloadBtn = resultImg.children[0];
+  const jobID = document.querySelector('.info').getAttribute('data-job');
+
+  if (jobID === '') {
+    alert('Please Generate an image first');
+    return;
+  }
+  let temp = new Image();
+  let url = `https://images.prodia.xyz/${jobID}.png`;
+  temp.src = url;
+  getImage.textContent = 'Loading';
+
+  // resultImg.style.opacity = 0;
+  
+  downloadBtn.href = url;
+  temp.addEventListener('load', () => {
+    resultImg.style.background = `url(${url})`;
+    resultImg.style.backgroundPosition = 'center';
+    resultImg.style.backgroundSize = 'cover';
+    resultImg.style.opacity = 1;
+    getImage.textContent = 'Receive Image';
   });
 }
 
@@ -69,15 +137,20 @@ fileBruh.addEventListener('submit', (event) => {
   const date = d.getDate();
   const month = d.getMonth();
   const year = d.getYear();
+
   
+  const textMode = document.querySelector('.type-toggle').getAttribute('data-status') === 'true';
+
   const API_KEY = document.querySelector('.api > input').value;
-  const imageUrl = document.querySelector('.image-container > input').value;
+
+  let imageUrl = 'null';
+
 
   const prompt = document.querySelector('#prompt').value;
-  const negativePrompt = document.querySelector('#negative-prompt').value;  
+  const negativePrompt = document.querySelector('#negative-prompt').value;
   const model = document.querySelector('#models').value;
-  
-  
+
+
   const sampler = document.querySelector('#sampler').value;
   const upscale = document.querySelector('.upscale').getAttribute('data-status') === 'true';
 
@@ -86,59 +159,67 @@ fileBruh.addEventListener('submit', (event) => {
   const denoising = document.querySelector('#denoising').value;
   const seed = document.querySelector('#seed').value;
 
-  const models = {
-    'Anything V3': 'anythingv3_0-pruned.ckpt [2700c435]',
-    'Anything V4.5': 'anything-v4.5-pruned.ckpt [65745d25]',
-    'AbyssOrangeMix3 A3': 'AOM3A3_orangemixs.safetensors [9600da17]'
-  }
+  const controlnet = document.querySelector('#controlnet').value;
+
+
   
-  
-  if(API_KEY === '') {
+
+
+
+  if (API_KEY === '') {
     window.scroll({
       top: '0'
     });
     alert('Please enter the API KEY');
     return
   }
-  
-  if(!imageStatus) {
+
+  if (!imageStatus && textMode !== true) {
+    
     alert('Please enter the image url correctly');
     return;
   }
-  fetch('https://portfolio.febryanshino.repl.co/api/prodia/generate', {
+  if (!textMode) {
+    imageUrl = document.querySelector('.image-container > input').value;
+  }
+  let params = {
+    data: [
+      API_KEY,
+      prompt,
+      negativePrompt,
+      model,
+      sampler,
+      parseInt(denoising),
+      parseInt(step),
+      parseInt(cfg),
+      upscale,
+      'landscape',
+      parseInt(seed),
+      imageUrl,
+      controlnet
+    ]
+  }
+  
+  fetch('https://febryans-prodiaapi.hf.space/run/predict', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      API_KEY: API_KEY,
-      upscale: upscale,
-      seed: parseInt(seed),
-      image_url: imageUrl,
-      model: models[model],
-      prompt: prompt,
-      denoising: parseFloat(denoising),
-      negative_prompt: negativePrompt,
-      steps: parseInt(step),
-      cfg: parseInt(cfg),
-      sampler: sampler
-    })
+    body: JSON.stringify(params)
   })
     .then(response => response.json())
     .then(data => {
+      let job = data.data[0];
+      
       const info = document.querySelector('.result > .info').children;
       const jobIDText = info[0].lastElementChild;
       const dateText = info[1].lastElementChild;
       document.querySelector('.info')
-        .setAttribute('data-job', data.job);
-      jobID = data.job;
-      jobIDText.textContent = data.job;
+        .setAttribute('data-job', job);
+      jobIDText.textContent = job;
       dateText.textContent = `${day}, ${date}/${month}/${year + 1900}`;
     });
-  
-  
 });
-
 
 
 const getImage = document.querySelector('.result > .info > button');
@@ -146,30 +227,12 @@ const copyJobID = document.querySelector('.result-img').children[1];
 
 copyJobID.addEventListener('click', (event) => {
   event.preventDefault();
+  const jobID = document.querySelector('.info').getAttribute('data-job');
   navigator.clipboard.writeText(jobID);
 });
 
 
 
 getImage.addEventListener('click', () => {
-  const resultImg = document.querySelector('.result-img');
-  const downloadBtn = resultImg.children[0];
-  const jobID = document.querySelector('.info').getAttribute('data-job');
-
-  if(jobID === '') {
-    alert('Please Generate an image first');
-    return;
-  }
-  const temp = new Image();
-  let url = `https://images.prodia.xyz/${jobID}.png`
-  temp.src = url;
-  getImage.textContent = 'Loading';
-  
-  resultImg.style.backgroundImage = `url(${url})`;
-  resultImg.style.opacity = 0;
-  downloadBtn.href = url;
-  temp.addEventListener('load', () => {
-    resultImg.style.opacity = 1;
-    getImage.textContent = 'Receive Image';
-  });
+  retrieveImage();
 });
