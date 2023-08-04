@@ -189,7 +189,7 @@ fileBruh.addEventListener('submit', (event) => {
       negativePrompt,
       model,
       sampler,
-      parseInt(denoising),
+      parseFloat(denoising),
       parseInt(step),
       parseInt(cfg),
       upscale,
