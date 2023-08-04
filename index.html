@@ -19,8 +19,14 @@
     <a target="_blank" href="https://app.prodia.com/api">Get it here</a>
     <input class="api-input" name="" value ="" placeholder="API KEY" required/>
   </div>
+
+  <div class="type-toggle" data-status="true">
+    <a href="#" data-img="false">Text to Image</a>
+    <a href="#" data-img="true">Image to Image</a>
+  </div>
   
-  <div class="image-container">
+  
+  <div class="image-container hidden">
     <div>
       Image Preview
       <div></div>
@@ -45,15 +51,25 @@
         <h5>Models</h5>
         
         <select id="models">
-          <option value="AbyssOrangeMix3 A3">AbyssOrangeMix3 A3</option>
-          <option value="Anything V3">Anything V3</option>
-          <option value="Anything V4.5">Anything V4.5</option>
+          <option value="anythingv3_0-pruned.ckpt [2700c435]">Anything V3</option>
+          <option value="anything-v4.5-pruned.ckpt [65745d25]">Anything V4.5</option>
+          <option value="anythingV5_PrtRE.safetensors [893e49b9]">Anything V5</option>
+          <option value="AOM3A3_orangemixs.safetensors [9600da17]">AbyssOrangeMix3 A3</option>
+          <option value="meinamix_meinaV11.safetensors [b56ce717]">MeinaMix V11</option>
         </select>
       </div>
     </div>
 
     <div class="settings">
       <h3>Settings</h3>
+      <div class="controlnet hidden">
+        <h5>Controlnet</h5>
+        <select id="controlnet">
+          <option value="null">None</option>
+          <option value="control_v11p_sd15_softedge [a8575a2a]">Soft Edge</option>
+          <option value="control_v11p_sd15_scribble [d4ba51ff]">Scribble</option>
+        </select>
+      </div>
       <div class="sampler">
         <h5>Sampler</h5>
         <select id="sampler">
@@ -107,14 +123,14 @@
   </form>
 
   <div class="result">
+    <div class="result-img">
+      <a target="_blank" href="#">Download</a>
+      <a href="#">Copy Job ID</a>
+    </div>
     <div class="info" data-job="">
       <h6>Job ID: <span>-</span></h6>
       <h6>Date: <span>-</span></h6>
       <button>Retrieve Image</button>
-    </div>
-    <div class="result-img">
-      <a target="_blank" href="#">Download</a>
-      <a href="#">Copy Job ID</a>
     </div>
   </div>
   
